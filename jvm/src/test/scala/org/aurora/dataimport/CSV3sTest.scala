@@ -17,7 +17,7 @@ class CSV3sTest extends AnyWordSpec with should.Matchers{
   val parser = CsvParser(';')
 
   "csv3s parser" should {
-    "parse result should have 28 fields" in {
+    "reveal 28 fields to a row" in {
 
 
       //skip header line
@@ -32,9 +32,10 @@ class CSV3sTest extends AnyWordSpec with should.Matchers{
       result.getOrElse(0) should be (28)
     }
 
-    "csv3s parser" should {
+    
       "decode to ADM case class based on givens" in {
         import codec.{*,given}
+        
         val i = file.lineIterator.drop(1) 
         val line = i.next()
 
@@ -47,6 +48,5 @@ class CSV3sTest extends AnyWordSpec with should.Matchers{
         adm.isRight should be (true)
         adm.right.get.right.get shouldBe a[ADM]
       }
-    }
   }
 }

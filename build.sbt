@@ -33,6 +33,8 @@ lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.
       Dependencies.zioTest, 
       Dependencies.zioTestSBT, 
       Dependencies.zioTestMagnolia,
+      Dependencies.zioTypesafeConfig,
+      Dependencies.zioLogging
       
     ),
     libraryDependencies ++= Dependencies.scalaLogging.value,

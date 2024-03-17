@@ -24,4 +24,5 @@ build/
 /RUNNING_PID
 .settingsz
 .DS_Store
+/tmp
 null

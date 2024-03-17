@@ -1,3 +1,4 @@
+import org.scalajs.linker.interface.ModuleSplitStyle
 // give the user a nice default project!
 val sharedSettings = Seq(
   scalaVersion := DependencyVersions.scalaVersion,
@@ -25,7 +26,7 @@ lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.
   ).
   jvmSettings(
     // Add JVM-specific settings here
-    //this maximizes the number of inlines for the csv3s macros for decoding case classes > 32 fields
+    //this maximizes the number of inlines for the csv3s macros for decoding case classes > 22 fields
     scalacOptions ++= Seq("-Xmax-inlines", "50"),
     libraryDependencies ++= Seq(
       Dependencies.zioHttp, 
@@ -42,7 +43,27 @@ lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.
 
   ).
   jsSettings(
+    /* Configure Scala.js to emit modules in the optimal way to
+     * connect to Vite's incremental reload.
+     * - emit ECMAScript modules
+     * - emit as many small modules as possible for classes in the "livechart" package
+     * - emit as few (large) modules as possible for all other classes
+     *   (in particular, for the standard library)
+     */
+    scalaJSLinkerConfig ~= {
+      _.withModuleKind(ModuleKind.ESModule)
+        .withModuleSplitStyle(
+          ModuleSplitStyle.SmallModulesFor(List("livechart")))
+    },
+
+    /*
+     *add resolver for scalatest
+     */
+    resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases",
+
+
     // Add JS-specific settings here
     libraryDependencies ++= Dependencies.sttp.value,
+    libraryDependencies ++= Dependencies.laminar.value,
     scalaJSUseMainModuleInitializer := true,
   )

@@ -5,6 +5,7 @@ import zio.http._
 import zio.http.endpoint._
 // import zio.http.{html => html5, _}
 
+
 object MainApp extends ZIOAppDefault {
   import zio.config.typesafe.TypesafeConfigProvider
   import zio.logging.fileLogger  
@@ -23,7 +24,10 @@ object MainApp extends ZIOAppDefault {
   val configProvider: ConfigProvider = TypesafeConfigProvider.fromHoconString(configString)
 
   override val bootstrap: ZLayer[Any, Config.Error, Unit] =
+    import zio.logging.consoleLogger    
     Runtime.removeDefaultLoggers >>> Runtime.setConfigProvider(configProvider) >>> fileLogger()
+    Runtime.removeDefaultLoggers >>> consoleLogger()  
+
 
   
 
@@ -32,11 +36,12 @@ object MainApp extends ZIOAppDefault {
   //
   import zio.http.codec.PathCodec.trailing
   import zio.http.template._
+  
 
   val directoryRoute =     Method.GET / "static" / trailing -> handler {
       val extractPath    = Handler.param[(Path, Request)](_._1)
       val extractRequest = Handler.param[(Path, Request)](_._2)
-
+      
       val r = for {
         path <- extractPath
         file <- Handler.getResourceAsFile(path.encode)
@@ -70,6 +75,7 @@ object MainApp extends ZIOAppDefault {
 
                             // Return a 404 if the file doesn't exist
                             else Handler.notFound)
+
       } yield http
 
       r

@@ -2,7 +2,6 @@ package org.aurora.dataimport
 
 package object codec:
   import ru.johnspade.csv3s.codecs.*
-  import ru.johnspade.csv3s.codecs.*
   import ru.johnspade.csv3s.codecs.instances.given
   import ru.johnspade.csv3s.parser.*
   import scala.util.Try

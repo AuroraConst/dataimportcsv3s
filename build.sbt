@@ -21,7 +21,8 @@ lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.
     version := "0.1-SNAPSHOT",
     sharedSettings,
     libraryDependencies ++= Dependencies.zioJson.value,
-    libraryDependencies ++= Dependencies.scalatest.value
+    libraryDependencies ++= Dependencies.scalatest.value,
+    libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.32.0"
 
   ).
   jvmSettings(

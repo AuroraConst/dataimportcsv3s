@@ -40,7 +40,8 @@ lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.
     ),
     libraryDependencies ++= Dependencies.scalaLogging.value,
     libraryDependencies += Dependencies.betterfiles,
-    libraryDependencies += Dependencies.csv3s
+    libraryDependencies += Dependencies.csv3s,
+
       
 
 

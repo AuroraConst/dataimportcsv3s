@@ -1,9 +1,9 @@
 package org.aurora.dataimport
 
-package object codec:
-  import ru.johnspade.csv3s.codecs.*
-  import ru.johnspade.csv3s.codecs.instances.given
-  import ru.johnspade.csv3s.parser.*
+import scala.compiletime.ops.boolean
+
+package object admcodec:
+  import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
   import scala.util.Try
   import java.time.LocalDate
   import java.time.format.DateTimeFormatter  
@@ -23,6 +23,8 @@ package object codec:
 
   case class Name(s:String) extends PadSize:
     override val padSize = 30
+    lazy val lastName = s.split(",")(0).trim()
+    lazy val firstName = s.split(",")(1).trim()
 
   case class HealthCard(s:String) extends PadSize:
     override val padSize = 13
@@ -42,14 +44,75 @@ package object codec:
   case class PrimaryCare(s:String)  extends PadSize:
     override val padSize = 10
 
+  case class FamilyPrivileges(s:String)  extends PadSize:
+    override val padSize = 1
+  case class HospitalistFlag(s:String)  extends PadSize:
+    override val padSize = 1  
+
+  case class Service(s:String)  extends PadSize:
+    override val padSize = 40  
+
+  case class Field1(s:String)   extends PadSize:
+    override val padSize = 1
+  case class Field8(s:String)  extends PadSize:
+    override val padSize = 8  
+  
+  case class Field10(s:String)  extends PadSize:
+    override val padSize = 10  
+
+  case class Field18(s:String)  extends PadSize:
+    override val padSize = 18
+  
+  case class Field20(s:String)  extends PadSize:
+    override val padSize = 20
+  
+  case class Field30(s:String)  extends PadSize:
+    override val padSize = 30
+  
+
+  case class Field40(s:String)  extends PadSize:
+    override val padSize = 40  
 
 
-  case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,birthDate:LocalDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
-    mrp:MRP, admittingPhysician:AdmittingPhysician,primaryCare:PrimaryCare ,familyPrivileges:String ,hospitalistFlag:String ,service:String ,f17:String,f18:String,f19:String,f20:String,
-    f21:String,f22:String,f23:String,f24:String,f25:String,f26:String,f27:String,f28:String  )
+
+  case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,
+    birthDate:LocalDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
+    mrp:MRP, admittingPhysician:AdmittingPhysician,primaryCare:PrimaryCare ,familyPrivileges:FamilyPrivileges,
+    hospitalistFlag:HospitalistFlag ,service:Service ,f17:Field40,f18:Field30,f19:Field30,f20:Field20,
+    f21:Field1,f22:Field10,f23:Field18,f24:Field18,f25:Field10,f26:Field8)
 
   given decoder: RowDecoder[ADM] = RowDecoder.derived
   given encoder: RowEncoder[ADM] = RowEncoder.derived
+
+  given StringEncoder[Field1] = _.padded
+  given StringDecoder[Field1] =  s => Try(Field1(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field8] = _.padded
+  given StringDecoder[Field8] =  s => Try(Field8(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field10] = _.padded
+  given StringDecoder[Field10] =  s => Try(Field10(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field18] = _.padded
+  given StringDecoder[Field18] =  s => Try(Field18(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field20] = _.padded
+  given StringDecoder[Field20] =  s => Try(Field20(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field30] = _.padded
+  given StringDecoder[Field30] =  s => Try(Field30(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Field40] = _.padded
+  given StringDecoder[Field40] =  s => Try(Field40(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+
+  given StringEncoder[HospitalistFlag] = _.padded
+  given StringDecoder[HospitalistFlag] =  s => Try(HospitalistFlag(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Service] = _.padded
+  given StringDecoder[Service] =  s => Try(Service(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  
 
   given StringEncoder[AccountNumber] = _.padded
   given StringDecoder[AccountNumber] =  s => Try(AccountNumber(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
@@ -80,6 +143,11 @@ package object codec:
 
   given StringEncoder[PrimaryCare] = _.padded
   given StringDecoder[PrimaryCare] =  s => Try(PrimaryCare(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+  
+  given StringEncoder[FamilyPrivileges] = _.padded
+  given StringDecoder[FamilyPrivileges] =  s => Try(FamilyPrivileges(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+  
+
 
   import java.time.LocalDate
 

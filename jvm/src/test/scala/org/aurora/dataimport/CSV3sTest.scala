@@ -34,7 +34,7 @@ class CSV3sTest extends AnyWordSpec with should.Matchers{
 
     
       "decode to ADM case class based on givens" in {
-        import codec.{*,given}
+        import admcodec.{*,given}
         
         val i = file.lineIterator.drop(1) 
         val line = i.next()

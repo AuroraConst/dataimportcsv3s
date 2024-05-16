@@ -1,52 +1,93 @@
 package org.aurora.dataimport
 
-import org.scalatest._
-import wordspec._
-import matchers._
-
-
-
-
+import org.scalatest._,  wordspec._, matchers._
 import better.files._
-import ru.johnspade.csv3s.parser.*
+
+import ru.johnspade.csv3s._, parser._, printer._
+import org.aurora.shared.Person.encoder
 
 
-class CSV3sTest extends AnyWordSpec with should.Matchers{
-  val resourceDir = ""/"jvm"/"src"/"test"/"resources"
-  val file = resourceDir/"adm.txt"
-  val parser = CsvParser(';')
+
+class CSV3sTest extends FixtureAnyWordSpec with should.Matchers{
+  case class FixtureParam(lineIterator: Iterator[String], parser: CsvParser)
+  def withFixture(test: OneArgTest) = {
+    // Shared setup (run at beginning of test)
+    val lineIterator = this.getClass().getResource("/adm.txt").toFile.get.lineIterator
+    val parser = CsvParser(';')
+
+    val theFixture = FixtureParam(lineIterator,parser)
+    try {
+      withFixture(test.toNoArgTest(theFixture)) // "loan" the fixture to the test
+    }
+    finally {
+      lineIterator.toList //forces the iterator to run to the end and then autocloses the file
+    }
+  }
+
+  "parsed line"   should {
+    "header should be 124 characters, otherwise standard length 394" in { fixture =>
+      val header = fixture.lineIterator.next() 
+      header.length should be (124)
+
+      val standardLineLength = fixture.lineIterator.next().length()
+
+      standardLineLength should be (394)
+      fixture.lineIterator.foreach { line =>
+        line.length should be (standardLineLength)
+      }
+    }
+  }
 
   "csv3s parser" should {
-    "reveal 28 fields to a row" in {
-
-
+    "reveal 28 fields to a row" in { fixture =>
       //skip header line
-      val i = file.lineIterator.drop(1) 
-      val line = i.next()
+      fixture.lineIterator.next() //skip header
+      val line = fixture.lineIterator.next() //first line
 
       val result = for {
-        result <- parseRow(line,parser)
+        result <- parseRow(line,fixture.parser)
       }
       yield(result.l.size)
       result.isRight should be( true)
       result.getOrElse(0) should be (28)
     }
-
+  }
     
-      "decode to ADM case class based on givens" in {
-        import admcodec.{*,given}
-        
-        val i = file.lineIterator.drop(1) 
-        val line = i.next()
 
-        val result = for {
-          result <- parseRow(line,parser)
-        }
-        yield(result)
-
-        val adm = result.map(decoder.decode(_))
-        adm.isRight should be (true)
-        adm.right.get.right.get shouldBe a[ADM]
+  "decode all to ADM should work " in {fixture => 
+    import admcodec.{*,given}
+    fixture.lineIterator.next() //skip header
+    fixture.lineIterator.foreach { line =>
+      parseRow(line,fixture.parser).map { decoder.decode(_)  } match {
+        case Right(admRow) => admRow.map { _ shouldBe a [ADM]}
+        case Left(e) => fail()
       }
+    }
+  }
+
+ 
+
+  "encode to csv" in {fixture =>
+    import admcodec.{*,given}
+    fixture.lineIterator.next() //skip header
+    val line = fixture.lineIterator.next()
+    for{
+      row <- parseRow(line,fixture.parser)
+      adm <- decoder.decode(row)
+      
+
+    } yield{
+       import printer.CsvPrinter
+       val encodedRow = admcodec.encoder.encode(adm)
+       val encodedLine = CsvPrinter.withSeparator(';').print(encodedRow) + ';'
+       info(line)
+       info (CsvPrinter.withSeparator(';').print(encodedRow))
+
+       line should be(encodedLine)
+
+    }
+    
+
+
   }
 }

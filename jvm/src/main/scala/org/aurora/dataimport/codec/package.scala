@@ -47,7 +47,9 @@ package object admcodec:
   case class FamilyPrivileges(s:String)  extends PadSize:
     override val padSize = 1
   case class HospitalistFlag(s:String)  extends PadSize:
-    override val padSize = 1  
+    override val padSize = 1
+  case class Flag(s:String) extends PadSize:
+    override val padSize = 1
 
   case class Service(s:String)  extends PadSize:
     override val padSize = 40  
@@ -78,7 +80,7 @@ package object admcodec:
   case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,
     birthDate:LocalDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
     mrp:MRP, admittingPhysician:AdmittingPhysician,primaryCare:PrimaryCare ,familyPrivileges:FamilyPrivileges,
-    hospitalistFlag:HospitalistFlag ,service:Service ,f17:Field40,f18:Field30,f19:Field30,f20:Field20,
+    hospitalistFlag:HospitalistFlag,flag:Flag ,service:Service ,f17:Field40,f18:Field30,f19:Field30,f20:Field20,
     f21:Field1,f22:Field10,f23:Field18,f24:Field18,f25:Field10,f26:Field8)
 
   given decoder: RowDecoder[ADM] = RowDecoder.derived
@@ -108,6 +110,9 @@ package object admcodec:
 
   given StringEncoder[HospitalistFlag] = _.padded
   given StringDecoder[HospitalistFlag] =  s => Try(HospitalistFlag(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[Flag] = _.padded
+  given StringDecoder[Flag] =  s => Try(Flag(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
 
   given StringEncoder[Service] = _.padded
   given StringDecoder[Service] =  s => Try(Service(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))

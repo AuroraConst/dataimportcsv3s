@@ -4,11 +4,8 @@ import org.scalatest._,  wordspec._, matchers._
 import better.files._
 
 import ru.johnspade.csv3s._, parser._, printer._
-import org.aurora.shared.Person.encoder
 
-
-
-class CSV3sTest extends FixtureAnyWordSpec with should.Matchers{
+class ADMCSV3sTest extends FixtureAnyWordSpec with should.Matchers{
   case class FixtureParam(lineIterator: Iterator[String], parser: CsvParser)
   def withFixture(test: OneArgTest) = {
     // Shared setup (run at beginning of test)
@@ -80,8 +77,6 @@ class CSV3sTest extends FixtureAnyWordSpec with should.Matchers{
        import printer.CsvPrinter
        val encodedRow = admcodec.encoder.encode(adm)
        val encodedLine = CsvPrinter.withSeparator(';').print(encodedRow) + ';'
-       info(line)
-       info (CsvPrinter.withSeparator(';').print(encodedRow))
 
        line should be(encodedLine)
 

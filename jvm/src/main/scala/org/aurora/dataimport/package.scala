@@ -1,5 +1,6 @@
 package org.aurora
 import org.aurora.shared.dto.Patient
+import dataimport.admcodec.{ADM, given}
 
 package object dataimport:
   import admcodec._
@@ -14,7 +15,7 @@ package object dataimport:
   private def importAdm():List[ADM] = 
     import better.files._, Dsl._
     import ru.johnspade.csv3s._, parser._
-    import admcodec.{*,given}
+    import admcodec.given
     
     val csvParser = CsvParser(';')
     def parseLine(line:String) = 

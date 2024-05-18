@@ -1,8 +1,6 @@
 package org.aurora
 
-import org.scalatest._
-import wordspec._
-import matchers._
+import org.scalatest._, wordspec._,  matchers._
 
 
 class SttpClientAsyncAsyncTest extends AsyncWordSpec with should.Matchers{

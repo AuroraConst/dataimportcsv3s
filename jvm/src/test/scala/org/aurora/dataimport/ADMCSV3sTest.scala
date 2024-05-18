@@ -4,6 +4,7 @@ import org.scalatest._,  wordspec._, matchers._
 import better.files._
 
 import ru.johnspade.csv3s._, parser._, printer._
+import admcodec.{ADM, given}
 
 class ADMCSV3sTest extends FixtureAnyWordSpec with should.Matchers{
   case class FixtureParam(lineIterator: Iterator[String], parser: CsvParser)
@@ -64,22 +65,19 @@ class ADMCSV3sTest extends FixtureAnyWordSpec with should.Matchers{
 
  
 
-  "encode to csv" in {fixture =>
+  "encode adm to csv" in {fixture =>
     import admcodec.{*,given}
     fixture.lineIterator.next() //skip header
     val line = fixture.lineIterator.next()
     for{
       row <- parseRow(line,fixture.parser)
       adm <- decoder.decode(row)
-      
+    } yield {
+      import printer.CsvPrinter
+      val encodedRow = admcodec.encoder.encode(adm)
+      val encodedLine = CsvPrinter.withSeparator(';').print(encodedRow) + ';'
 
-    } yield{
-       import printer.CsvPrinter
-       val encodedRow = admcodec.encoder.encode(adm)
-       val encodedLine = CsvPrinter.withSeparator(';').print(encodedRow) + ';'
-
-       line should be(encodedLine)
-
+      line should be(encodedLine)
     }
     
 

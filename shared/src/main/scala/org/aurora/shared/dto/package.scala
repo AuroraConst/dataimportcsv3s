@@ -27,7 +27,12 @@ package object dto:
     attending: Option[String],
     collab1: Option[String],
     collab2: Option[String]
-  )    
+  )
+
+  object Patient:
+    given JsonDecoder[Patient] = DeriveJsonDecoder.gen[Patient]
+    given JsonEncoder[Patient] = DeriveJsonEncoder.gen[Patient]
+      
 
 
 end dto

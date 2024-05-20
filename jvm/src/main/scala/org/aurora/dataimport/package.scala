@@ -1,24 +1,24 @@
 package org.aurora
 import org.aurora.shared.dto.Patient
 import dataimport.admcodec.{ADM, given}
+import org.aurora.dataimport.hospadmcodec.HospADM
+import dataimport.hospadmcodec.given
 
 package object dataimport:
   import admcodec._
+  import com.typesafe.config._
+  import better.files._, Dsl._
+  import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._
+
+  val config: Config = ConfigFactory.load()
   
-  private def admFile = 
-    import com.typesafe.config._
-    import better.files._, Dsl._
-    val config: Config = ConfigFactory.load()
-    val admpath = config.getString("app.adm.path")
-    File(admpath)
+  lazy val admFile =  File(config.getString("app.adm.path"))
+  lazy val hospadmFile = File(config.getString("app.hospadm.path"))
+  val csvParser = CsvParser(';')
   
   private def importAdm():List[ADM] = 
-    import better.files._, Dsl._
-    import ru.johnspade.csv3s._, parser._
-    import admcodec.given
-    
-    val csvParser = CsvParser(';')
     def parseLine(line:String) = 
+      import admcodec.given
       val result = for (
         row <- parseRow(line,csvParser);
         adm  <- decoder.decode(row)
@@ -31,6 +31,30 @@ package object dataimport:
     lineIterator.map( parseLine(_)).collect{ case Right(adm) => adm}.toList
   end importAdm
 
+  private def importHospAdm():List[HospADM] = 
+    def parseLine(line:String) = 
+      import hospadmcodec.given
+      val result = for (
+        row <- parseRow(line,csvParser);
+        hospadm  <- decoder.decode(row)
+      ) yield hospadm
+      result
+    end parseLine
+
+    val lineIterator = admFile.lineIterator
+    lineIterator.next() //skip header
+    lineIterator.map( parseLine(_)).collect{ case Right(adm) => adm}.toList
+  end importHospAdm
+
+  private def adm(hospadm:HospADM): ADM= 
+    import utils._
+    ADM(
+    hospadm.accountNumber,hospadm.unitNumber,hospadm.name,hospadm.sex,
+    hospadm.birthDate,hospadm.healthCard,hospadm.admitDate,hospadm.floor,hospadm.room,hospadm.bed,
+    hospadm.mrp,hospadm.admittingPhysician,hospadm.primaryCare,hospadm.familyPrivileges,
+    hospadm.hospitalistFlag,hospadm.flag,hospadm.service,
+    Field40(""),Field30(""),Field30(""),Field20(""),Field1(""),Field10(""),Field18(""),Field18(""),Field10(""),Field8("")
+    )
 
   private def patient(adm:ADM):Patient = 
     Patient(

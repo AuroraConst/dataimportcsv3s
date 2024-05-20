@@ -16,37 +16,29 @@ package object dataimport:
   lazy val hospadmFile = File(config.getString("app.hospadm.path"))
   val csvParser = CsvParser(';')
   
-  private def importAdm():List[ADM] = 
-    def parseLine(line:String) = 
-      import admcodec.given
-      val result = for (
-        row <- parseRow(line,csvParser);
-        adm  <- decoder.decode(row)
-      ) yield adm
-      result
-    end parseLine
+  import ru.johnspade.csv3s._, codecs._
+  def parseLine[T] (line:String)(using decoder:RowDecoder[T]) =
+    val result = for (
+      row <- parseRow(line,csvParser);
+      adm  <- decoder.decode(row)
+    ) yield adm
+    result
 
+  private def importAdm():List[ADM] = 
+    import admcodec.given
     val lineIterator = admFile.lineIterator
     lineIterator.next() //skip header
-    lineIterator.map( parseLine(_)).collect{ case Right(adm) => adm}.toList
+    lineIterator.map( parseLine[ADM](_)).collect{ case Right(adm) => adm}.toList
   end importAdm
 
   private def importHospAdm():List[HospADM] = 
-    def parseLine(line:String) = 
-      import hospadmcodec.given
-      val result = for (
-        row <- parseRow(line,csvParser);
-        hospadm  <- decoder.decode(row)
-      ) yield hospadm
-      result
-    end parseLine
-
-    val lineIterator = admFile.lineIterator
+    import hospadmcodec.given
+    val lineIterator = hospadmFile.lineIterator
     lineIterator.next() //skip header
-    lineIterator.map( parseLine(_)).collect{ case Right(adm) => adm}.toList
+    lineIterator.map( parseLine[HospADM](_)).collect{ case Right(adm) => adm}.toList
   end importHospAdm
 
-  private def adm(hospadm:HospADM): ADM= 
+  private def adm(hospadm:HospADM): ADM = 
     import utils._
     ADM(
     hospadm.accountNumber,hospadm.unitNumber,hospadm.name,hospadm.sex,

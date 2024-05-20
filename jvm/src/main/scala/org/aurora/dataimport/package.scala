@@ -8,7 +8,7 @@ package object dataimport:
   import admcodec._
   import com.typesafe.config._
   import better.files._, Dsl._
-  import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._
+  import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._, codecs._
 
   val config: Config = ConfigFactory.load()
   
@@ -16,7 +16,6 @@ package object dataimport:
   lazy val hospadmFile = File(config.getString("app.hospadm.path"))
   val csvParser = CsvParser(';')
   
-  import ru.johnspade.csv3s._, codecs._
   def parseLine[T] (line:String)(using decoder:RowDecoder[T]) =
     val result = for (
       row <- parseRow(line,csvParser);

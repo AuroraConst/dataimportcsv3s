@@ -87,7 +87,7 @@ object MainApp extends ZIOAppDefault {
     Method.GET / "json" -> handler(Response.json("""{"greetings": "Hello World!"}"""))
 
   // Create HTTP route
-  val app = Routes(directoryRoute,textRoute, jsonRoute).sandbox.toHttpApp
+  val routes = Routes(/*directoryRoute*/textRoute, jsonRoute)
 
 
   
@@ -99,6 +99,6 @@ object MainApp extends ZIOAppDefault {
 
   override val run = {
     Console.printLine("please visit http://localhost:8080") *> 
-    Server.serve(app).provide(Server.default)
+    Server.serve(routes).provide(Server.default)
   }
 }

@@ -4,7 +4,7 @@ import sbt._
 object Dependencies {
   val zioVersion = "2.0.13"
   val zioJsonVersion = "0.6.2"
-  val zioHttpVersion = "3.0.0-RC4"
+  val zioHttpVersion = "3.0.0-RC7"
   val scalaLoggingVersion = "3.9.4"
   val betterfilesVersion = "3.9.2"
   val csv3sVersion = "0.1.3"

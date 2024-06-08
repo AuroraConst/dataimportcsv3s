@@ -8,17 +8,17 @@ val sharedSettings = Seq(
 
 
 lazy val root = project.in(file(".")).
-  aggregate(dataimport.js, dataimport.jvm).
+  aggregate(dataimportcsv3s.js, dataimportcsv3s.jvm).
   settings(sharedSettings,
     publish := {},
     publishLocal := {}
 
   )
 
-lazy val dataimport = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Full).in(file("."))
+lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Full).in(file("."))
   .settings(
     name := "dataimportcsv3s",
-    version := "0.1-SNAPSHOT",
+    version := "0.0.1-SNAPSHOT",
     sharedSettings,
     libraryDependencies ++= Dependencies.zioJson.value,
     libraryDependencies ++= Dependencies.scalatest.value,

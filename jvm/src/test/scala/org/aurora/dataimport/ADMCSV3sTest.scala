@@ -22,8 +22,8 @@ class ADMCSV3sTest extends FixtureAnyWordSpec with should.Matchers{
     }
   }
 
-  "parsed line"   should {
-    "header should be 124 characters, otherwise standard length 394" in { fixture =>
+  "The header"   should {
+    "have 124 characters, otherwise standard length 394" in { fixture =>
       val header = fixture.lineIterator.next() 
       header.length should be (124)
 

@@ -11,6 +11,7 @@ package object dto:
     sex: String,
     dob: String,
     hcn: Option[String],
+    admitDate: Option[String],
     floor: Option[String],
     room: Option[String],
     bed: Option[String],

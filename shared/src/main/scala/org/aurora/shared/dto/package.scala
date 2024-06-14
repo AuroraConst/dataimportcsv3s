@@ -2,6 +2,7 @@ package org.aurora.shared
 
 package object dto:
   import zio.json._
+  import java.time._ //cross scalajs and jvm compatible
 
 
   case class Patient(
@@ -11,7 +12,7 @@ package object dto:
     sex: String,
     dob: String,
     hcn: Option[String],
-    admitDate: Option[String],
+    admitDate: Option[LocalDateTime],
     floor: Option[String],
     room: Option[String],
     bed: Option[String],

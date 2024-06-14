@@ -3,7 +3,8 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 val sharedSettings = Seq(
   scalaVersion := DependencyVersions.scalaVersion,
   organization := "org.aurora",
-  scalacOptions ++=  Seq("-Yretain-trees") //necessary in zio-json if any case classes have default parameters
+  scalacOptions ++=  Seq("-Yretain-trees",//necessary in zio-json if any case classes have default parameters
+  "-Xmax-inlines","50") //setting max inlines to accomodate > 32 fields in case classes
 )
 
 

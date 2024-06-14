@@ -50,6 +50,7 @@ package object dataimport:
   private def patient(adm:ADM):Patient = 
     import java.time._
     Patient(
+      accountNumber = adm.accountNumber.trimmed,
       unitNumber = adm.unitNumber.trimmed,
       lastName = adm.name.lastName,
       firstName = adm.name.firstName,

@@ -6,6 +6,7 @@ package object dto:
 
 
   case class Patient(
+    accountNumber: String,
     unitNumber: String,
     lastName: String,
     firstName: String,

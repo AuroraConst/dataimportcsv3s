@@ -48,6 +48,7 @@ package object dataimport:
     )
 
   private def patient(adm:ADM):Patient = 
+    import java.time._
     Patient(
       unitNumber = adm.unitNumber.trimmed,
       lastName = adm.name.lastName,
@@ -55,6 +56,10 @@ package object dataimport:
       sex = adm.sex,
       dob = adm.birthDate.toString,
       hcn = Some(adm.healthCard.trimmed),
+      admitDate = Some(adm.admitDate.atStartOfDay),
+      floor = Some(adm.floor.trimmed),
+      room =  Some(adm.room.trimmed),
+      bed = Some(adm.bed.trimmed),
       family = Some(adm.primaryCare.trimmed),
       famPriv = Some(adm.familyPrivileges.trimmed),
       hosp = Some(adm.hospitalistFlag.trimmed),

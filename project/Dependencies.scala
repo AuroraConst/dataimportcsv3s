@@ -16,12 +16,6 @@ object Dependencies {
   val zioTestSBT = "dev.zio" %% "zio-test-sbt" % zioVersion % Test
   val zioTestMagnolia = "dev.zio" %% "zio-test-magnolia" % zioVersion % Test  
 
-  val sttp = Def.setting{
-    Seq(
-      "com.softwaremill.sttp.client4" %%% "core" % "4.0.0-M8"
-      // "com.softwaremill.sttp.client4" %%% "json-common" % "4.0.0-M8"
-    )
-  }
 
   val scalajsdom  = Def.setting {
     Seq("org.scala-js" %%% "scalajs-dom" % "2.4.0")

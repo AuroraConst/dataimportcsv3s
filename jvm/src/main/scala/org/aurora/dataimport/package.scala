@@ -49,6 +49,11 @@ package object dataimport:
 
   private def patient(adm:ADM):Patient = 
     import java.time._
+    def stringOrNone(opt:String) = opt match {
+      case "" => None
+      case _ =>  Some(opt)
+    }
+
     Patient(
       accountNumber = adm.accountNumber.trimmed,
       unitNumber = adm.unitNumber.trimmed,
@@ -62,19 +67,19 @@ package object dataimport:
       room =  Some(adm.room.trimmed),
       bed = Some(adm.bed.trimmed),
       family = Some(adm.primaryCare.trimmed),
-      famPriv = Some(adm.familyPrivileges.trimmed),
-      hosp = Some(adm.hospitalistFlag.trimmed),
-      flag = Some(adm.flag.trimmed),
-      address1 = Some(adm.f17.trimmed),
-      address2 = Some(adm.f18.trimmed),
-      city = Some(adm.f19.trimmed),
-      province = Some(adm.f20.trimmed),
-      postalCode =  Some(adm.f21.trimmed),
-      homePhoneNumber = Some(adm.f22.trimmed),
-      workPhoneNumber = Some(adm.f23.trimmed),
-      OHIP = Some(adm.f24.trimmed),
-      familyPhysician = Some(adm.primaryCare.trimmed),
-      attending = Some(adm.mrp.trimmed),
+      famPriv = Some(adm.familyPrivileges.trimmed).flatMap(stringOrNone),
+      hosp = Some(adm.hospitalistFlag.trimmed).flatMap(stringOrNone),
+      flag = Some(adm.flag.trimmed).flatMap(stringOrNone),
+      address1 = Some(adm.f17.trimmed).flatMap(stringOrNone),
+      address2 = Some(adm.f18.trimmed).flatMap(stringOrNone),
+      city = Some(adm.f19.trimmed).flatMap(stringOrNone),
+      province = Some(adm.f20.trimmed).flatMap(stringOrNone),
+      postalCode =  Some(adm.f21.trimmed).flatMap(stringOrNone),
+      homePhoneNumber = Some(adm.f22.trimmed).flatMap(stringOrNone),
+      workPhoneNumber = Some(adm.f23.trimmed).flatMap(stringOrNone),
+      OHIP = Some(adm.f24.trimmed).flatMap(stringOrNone),
+      familyPhysician = Some(adm.primaryCare.trimmed).flatMap(stringOrNone),
+      attending = Some(adm.mrp.trimmed).flatMap(stringOrNone),
       collab1 = None,
       collab2 = None
       )

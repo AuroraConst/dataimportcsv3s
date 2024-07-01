@@ -10,13 +10,12 @@ package object dataimport:
   import better.files._, Dsl._
   import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._, codecs._
 
-  val config: Config = ConfigFactory.load()
+  private val config: Config = ConfigFactory.load()
+  private lazy val admFile =  File(config.getString("app.adm.path"))
+  private lazy val hospadmFile = File(config.getString("app.hospadm.path"))
+  private val csvParser = CsvParser(';')
   
-  lazy val admFile =  File(config.getString("app.adm.path"))
-  lazy val hospadmFile = File(config.getString("app.hospadm.path"))
-  val csvParser = CsvParser(';')
-  
-  def parseLine[T] (line:String)(using decoder:RowDecoder[T]) =
+  private def parseLine[T] (line:String)(using decoder:RowDecoder[T]) =
     val result = for (
       row <- parseRow(line,csvParser);
       adm  <- decoder.decode(row)
@@ -37,7 +36,7 @@ package object dataimport:
     lineIterator.map( parseLine[HospADM](_)).collect{ case Right(adm) => adm}.toList
   end importHospAdm
 
-  private def adm(hospadm:HospADM): ADM = 
+  def adm(hospadm:HospADM): ADM = 
     import utils._
     ADM(
     hospadm.accountNumber,hospadm.unitNumber,hospadm.name,hospadm.sex,
@@ -47,7 +46,40 @@ package object dataimport:
     Field40(""),Field30(""),Field30(""),Field20(""),Field1(""),Field10(""),Field18(""),Field18(""),Field10(""),Field8("")
     )
 
-  private def patient(adm:ADM):Patient = 
+  def adm(patient:Patient)  : ADM = 
+    import utils._
+    import java.time._
+    ADM( 
+      AccountNumber(patient.accountNumber),
+      UnitNumber(patient.unitNumber),
+      Name(patient.lastName + "," + patient.firstName),
+      patient.sex,
+      LocalDate.parse(patient.dob),
+      HealthCard(patient.OHIP.getOrElse("")),
+      patient.admitDate.get.toLocalDate(),
+      Floor(patient.floor.getOrElse("")),
+      Room(patient.room.getOrElse("")),
+      Bed(patient.bed.getOrElse("")),
+      MRP(patient.mrp.getOrElse("")),
+      AdmittingPhysician(patient.admittingPhys.getOrElse("")),
+      PrimaryCare(patient.family.getOrElse("")),
+      FamilyPrivileges(patient.famPriv.getOrElse("")),
+      HospitalistFlag(patient.hosp.getOrElse("")),
+      Flag(patient.flag.getOrElse("")),
+      Service(patient.service.getOrElse("")),
+      Field40(""),
+      Field30(""),
+      Field30(""),
+      Field20(""),
+      Field1(""),
+      Field10(""),
+      Field18(""),
+      Field18(""),
+      Field10(""),
+      Field8("")
+    )
+
+  def patient(adm:ADM):Patient = 
     import java.time._
     def stringOrNone(opt:String) = opt match {
       case "" => None
@@ -66,10 +98,13 @@ package object dataimport:
       floor = Some(adm.floor.trimmed),
       room =  Some(adm.room.trimmed),
       bed = Some(adm.bed.trimmed),
+      mrp = Some(adm.mrp.trimmed).flatMap(stringOrNone),
+      admittingPhys = Some(adm.admittingPhysician.trimmed).flatMap(stringOrNone),
       family = Some(adm.primaryCare.trimmed),
       famPriv = Some(adm.familyPrivileges.trimmed).flatMap(stringOrNone),
       hosp = Some(adm.hospitalistFlag.trimmed).flatMap(stringOrNone),
       flag = Some(adm.flag.trimmed).flatMap(stringOrNone),
+      service = Some(adm.service.trimmed).flatMap(stringOrNone),
       address1 = Some(adm.f17.trimmed).flatMap(stringOrNone),
       address2 = Some(adm.f18.trimmed).flatMap(stringOrNone),
       city = Some(adm.f19.trimmed).flatMap(stringOrNone),
@@ -78,8 +113,7 @@ package object dataimport:
       homePhoneNumber = Some(adm.f22.trimmed).flatMap(stringOrNone),
       workPhoneNumber = Some(adm.f23.trimmed).flatMap(stringOrNone),
       OHIP = Some(adm.f24.trimmed).flatMap(stringOrNone),
-      familyPhysician = Some(adm.primaryCare.trimmed).flatMap(stringOrNone),
-      attending = Some(adm.mrp.trimmed).flatMap(stringOrNone),
+      attending = Some(adm.primaryCare.trimmed).flatMap(stringOrNone),
       collab1 = None,
       collab2 = None
       )

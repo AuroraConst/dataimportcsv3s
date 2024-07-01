@@ -44,13 +44,13 @@ class FetchTest extends AsyncFlatSpec {
 
 
   def listObserver =   new Observer[Option[List[Patient]]] {
-          override def onError(err: Throwable): Unit = info(fail(err.getMessage()))
-          override def onTry(nextValue: Try[Option[List[Patient]]]): Unit = ()
-          override def onNext(nextValue: Option[List[Patient]]):Unit =
-            import org.aurora.shared._, dto._
-            import zio.json._
-            nextValue.foreach( p => info(s"$p") )
-        }
+    override def onError(err: Throwable): Unit = info(fail(err.getMessage()))
+    override def onTry(nextValue: Try[Option[List[Patient]]]): Unit = ()
+    override def onNext(nextValue: Option[List[Patient]]):Unit =
+      import org.aurora.shared._, dto._
+      import zio.json._
+      nextValue.foreach( p => info(s"$p") )
+    }
   
   implicit override def executionContext = JSExecutionContext.queue
   behavior of "fetch"
@@ -58,13 +58,9 @@ class FetchTest extends AsyncFlatSpec {
     it should ("fetch from server") in {
       patients.addObserver(listObserver)
 
-      // val varoptPatientList = Var[Option[List[Patient]]](Option.empty[List[Patient]])
-      // varoptPatientList.signal.addObserver(listObserver)
-
-      // patients --> varoptPatientList.writer
 
       for {
-        _ <- delay(500)
+        _ <- delay(1000)
       } yield {
         assert(true)
       }

@@ -1,6 +1,6 @@
 package org.aurora.dataimport
 
-import scala.compiletime.ops.boolean
+// import scala.compiletime.ops.boolean
 
 package object admcodec:
   import ru.johnspade.csv3s._, codecs._, parser._ , instances.given

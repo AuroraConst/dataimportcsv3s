@@ -1,10 +1,9 @@
-package org.aurora.dataimport
+package org.aurora
 import org.aurora.shared.dto.Patient
-import admcodec.{ADM, given}
 import org.aurora.dataimport.hospadmcodec.HospADM
-import hospadmcodec.given
 
 package object dataimport:
+  import hospadmcodec.given
   import admcodec._
   import com.typesafe.config._
   import better.files._, Dsl._
@@ -14,8 +13,8 @@ package object dataimport:
   val dateFormat = format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
   private val config: Config = ConfigFactory.load()
-  private lazy val admFile =  File(config.getString("app.adm.path"))
-  private lazy val hospadmFile = File(config.getString("app.hospadm.path"))
+  lazy val admFile =  File(config.getString("app.adm.path"))
+  lazy val hospadmFile = File(config.getString("app.hospadm.path"))
   private val csvParser = CsvParser(';')
   
   private def parseLine[T] (line:String)(using decoder:RowDecoder[T]) =

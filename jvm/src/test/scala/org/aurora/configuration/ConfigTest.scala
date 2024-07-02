@@ -3,7 +3,7 @@ package org.aurora.configuration
 import org.scalatest._,  wordspec._, matchers._
 import better.files._, Dsl._
 
-
+import org.aurora.dataimport._
 
 class ConfigTest extends AnyWordSpec with should.Matchers{
   import com.typesafe.config._

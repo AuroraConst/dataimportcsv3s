@@ -29,7 +29,6 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
   jvmSettings(
     // Add JVM-specific settings here
     //this maximizes the number of inlines for the csv3s macros for decoding case classes > 22 fields
-    scalacOptions ++= Seq("-Xmax-inlines", "50"),
     libraryDependencies ++= Seq(
       Dependencies.zioHttp, 
       Dependencies.zioTest, 

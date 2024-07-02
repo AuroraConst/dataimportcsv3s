@@ -9,7 +9,7 @@ package object admcodec:
 
 
   case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,
-    birthDate:LocalDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
+    birthDate:BirthDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
     mrp:MRP, admittingPhysician:AdmittingPhysician,primaryCare:PrimaryCare ,familyPrivileges:FamilyPrivileges,
     hospitalistFlag:HospitalistFlag,flag:Flag ,service:Service ,f17:Field40,f18:Field30,f19:Field30,f20:Field20,
     f21:Field1,f22:Field10,f23:Field18,f24:Field18,f25:Field10,f26:Field8)

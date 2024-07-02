@@ -1,14 +1,17 @@
-package org.aurora
+package org.aurora.dataimport
 import org.aurora.shared.dto.Patient
-import dataimport.admcodec.{ADM, given}
+import admcodec.{ADM, given}
 import org.aurora.dataimport.hospadmcodec.HospADM
-import dataimport.hospadmcodec.given
+import hospadmcodec.given
 
 package object dataimport:
   import admcodec._
   import com.typesafe.config._
   import better.files._, Dsl._
   import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._, codecs._
+
+  import java.time._
+  val dateFormat = format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
   private val config: Config = ConfigFactory.load()
   private lazy val admFile =  File(config.getString("app.adm.path"))
@@ -36,6 +39,8 @@ package object dataimport:
     lineIterator.map( parseLine[HospADM](_)).collect{ case Right(adm) => adm}.toList
   end importHospAdm
 
+
+
   def adm(hospadm:HospADM): ADM = 
     import utils._
     ADM(
@@ -54,7 +59,7 @@ package object dataimport:
       UnitNumber(patient.unitNumber),
       Name(patient.lastName + "," + patient.firstName),
       patient.sex,
-      LocalDate.parse(patient.dob),
+      BirthDate(javatime.formattedString(patient.dob.get)),
       HealthCard(patient.OHIP.getOrElse("")),
       patient.admitDate.get.toLocalDate(),
       Floor(patient.floor.getOrElse("")),
@@ -92,7 +97,7 @@ package object dataimport:
       lastName = adm.name.lastName,
       firstName = adm.name.firstName,
       sex = adm.sex,
-      dob = adm.birthDate.toString,
+      dob = adm.birthDate.optLocalDate,
       hcn = Some(adm.healthCard.trimmed),
       admitDate = Some(adm.admitDate.atStartOfDay),
       floor = Some(adm.floor.trimmed),

@@ -12,10 +12,22 @@ package object utils:
     def padded = s.padTo(padSize,' ')
     lazy val trimmed = s.trim()
 
+  trait JavaTimeLocalDate:
+    def localdate:LocalDate
+
+  import java.time._
+  val dateFormat = format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+  object javatime:
+    def localDate(s:String):LocalDate = LocalDate.parse(s,dateFormat )
+    def formattedString(d:LocalDate):String =  dateFormat.format(d)
+    
+  
 
   case class AccountNumber(s:String) extends PadSize:
     override val padSize = 11 
     
+
 
   case class UnitNumber(s:String)   extends PadSize:
     override val padSize = 10 
@@ -24,6 +36,10 @@ package object utils:
     override val padSize = 30
     lazy val lastName = s.split(",")(0).trim()
     lazy val firstName = s.split(",")(1).trim()
+
+  case class BirthDate(s:String) extends PadSize :
+    override val padSize = 10
+    def optLocalDate = Try( java.time.LocalDate.parse(s,dateFormat) ).toOption
 
   case class HealthCard(s:String) extends PadSize:
     override val padSize = 13
@@ -116,6 +132,10 @@ package object utils:
 
   given StringEncoder[UnitNumber] = _.padded
   given StringDecoder[UnitNumber] =  s => Try(UnitNumber(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
+  given StringEncoder[BirthDate] = _.padded
+  given StringDecoder[BirthDate] =  s => Try(BirthDate(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+
 
   given StringEncoder[Name] = _.padded
   given StringDecoder[Name] =  s => Try(Name(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))

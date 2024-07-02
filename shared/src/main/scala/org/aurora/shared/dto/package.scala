@@ -11,7 +11,7 @@ package object dto:
     lastName: String,
     firstName: String,
     sex: String,
-    dob: Option[LocalDate],  //TODO CHANGE type TO java.time.LocalDate
+    dob: Option[LocalDate],  
     hcn: Option[String],
     admitDate: Option[LocalDateTime],
     floor: Option[String],

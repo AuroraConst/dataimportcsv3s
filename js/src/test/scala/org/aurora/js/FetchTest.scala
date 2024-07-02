@@ -83,7 +83,7 @@ class FetchTest extends AsyncFlatSpec {
       Fetch.patients.foreach{r => 
         r match {
           case s:Some[List[Patient]] => patientsVar.writer.onNext(s)
-          case None => info("no patients fetched from server")
+          case None => fail("no patients fetched from server")
         }
       }
 

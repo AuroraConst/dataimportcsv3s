@@ -1,20 +1,20 @@
 package org.aurora.js
 
 import org.scalatest._, Assertions._, funspec.AsyncFunSpec 
+import org.scalatest.flatspec._, Assertions.*
 import scala.util.Try
 
 import com.raquo.laminar.api.L.{*, given}
 import com.raquo.airstream.ownership.OneTimeOwner
+
 import scala.scalajs._
-import org.scalatest.flatspec._, Assertions.*
-import scala.concurrent.Future
+import scala.scalajs.concurrent.JSExecutionContext
+import scala.concurrent.{Future,Promise}
 
 import zio.json._
 import org.aurora.shared._, dto._
-import scala.concurrent.Promise
-import scala.scalajs.concurrent.JSExecutionContext
+import org.aurora.js.model.Fetch
 
-//TODO https://stackoverflow.com/questions/46617946/sleep-inside-future-in-scala-js
 
 
 /**
@@ -28,6 +28,10 @@ class FetchTest extends AsyncFlatSpec {
   
   given Owner = new OneTimeOwner(()=>())
 
+  /** 
+   * see
+   * https://stackoverflow.com/questions/46617946/sleep-inside-future-in-scala-js
+   */
   def delay(milliseconds: Int): Future[Unit] = 
     val p = Promise[Unit]()
     js.timers.setTimeout(milliseconds) {
@@ -36,13 +40,6 @@ class FetchTest extends AsyncFlatSpec {
     p.future
 
   
-  
-  def patients = 
-    FetchStream.get("http://localhost:8080/patientsjson").
-    map(s => s.fromJson[List[Patient]]).
-    map(p => p.toOption)
-    
-
   /**
     * @deprecated
     * this is not used
@@ -65,13 +62,12 @@ class FetchTest extends AsyncFlatSpec {
       // patients --> patientsVar.writer  would be how you express this in Lamainar for front-end development
       // this does not work outside of front-end environments 
       //also note that adding the observer triggers patients to fetch and transmit to observers
-      patients.addObserver(patientsVar.writer)
+      Fetch.patients.addObserver(patientsVar.writer)
       patientsVar.signal.foreach( p => info(s"patientVar size ${p.get.size}") )
       
 
-      for {
-        _ <- delay(1500)
-      } yield {      
+      // composes the delay with then reviewing desired results afterwards
+      for {    _ <- delay(1500) } yield {      
         if (patientsVar.now().get.size >0) 
           assert(true)
         else
@@ -84,7 +80,7 @@ class FetchTest extends AsyncFlatSpec {
       val patientsVar = Var[Option[List[Patient]]](Some(List[Patient]()))
       val eventBusCounter = 
 
-      patients.foreach{r => 
+      Fetch.patients.foreach{r => 
         r match {
           case s:Some[List[Patient]] => patientsVar.writer.onNext(s)
           case None => info("no patients fetched from server")
@@ -95,9 +91,7 @@ class FetchTest extends AsyncFlatSpec {
       patientsVar.signal.foreach( p => info(s"patientVar size ${p.get.size}") )
       
 
-      for {
-        _ <- delay(1500)
-      } yield {      
+      for {    _ <- delay(1500) } yield {     
         if (patientsVar.now().get.size >0) 
           assert(true)
         else
@@ -112,7 +106,7 @@ class FetchTest extends AsyncFlatSpec {
 
       //fetch 3 x and update patientsVar and eventBusCounter
       (1 to 3) foreach { _ => 
-        patients.foreach{r => 
+        Fetch.patients.foreach{r => 
           r match {
             case s:Some[List[Patient]] => 
               patientsVar.writer.onNext(s)
@@ -124,10 +118,9 @@ class FetchTest extends AsyncFlatSpec {
 
       eventBusCounter.signal.foreach( p => info(s"eventBusCounter size ${p}") )
 
-      for {
-        _ <- delay(1500)
-      } yield {
-        if (patientsVar.now().get.size >0) 
+      for {    _ <- delay(1500) } yield {  
+
+        if (patientsVar.now().get.size > 0) 
           assert(true)
           else
           fail("no patients fetched from server")
@@ -138,7 +131,4 @@ class FetchTest extends AsyncFlatSpec {
           fail("total number of fetches was not 3")
       }
     }
-
-
-
 }

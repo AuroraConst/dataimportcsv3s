@@ -1,11 +1,11 @@
-import org.aurora.dataimport
+package org.aurora.dataimport
 import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
 import scala.util.Try
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter  
 
 
-package object utils:
+object utils :
   trait PadSize:
     val s:String  
     val padSize:Int

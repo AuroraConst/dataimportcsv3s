@@ -1,10 +1,10 @@
-package org.aurora
+package org.aurora.dataimport
 import org.aurora.model.shared.dto.Patient
-import org.aurora.dataimport.hospadmcodec.HospADM
+import hospadmcodec.HospADM
+import hospadmcodec.given
+import admcodec._
 
-package object dataimport:
-  import hospadmcodec.given
-  import admcodec._
+object dataimportapi:
   import com.typesafe.config._
   import better.files._, Dsl._
   import ru.johnspade.csv3s._, ru.johnspade.csv3s.parser._, codecs._
@@ -124,4 +124,4 @@ package object dataimport:
   end patient
 
   def importpatients:List[Patient] = importAdm().map(patient(_))
-end dataimport
+end dataimportapi

@@ -2,9 +2,11 @@ package org.aurora.dataimport
 
 import scala.compiletime.ops.boolean
 
-package object hospadmcodec:
 
-  import utils._
+import org.aurora.dataimport.utils._
+
+object hospadmcodec:
+
   import java.time.LocalDate
   import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
   import java.time.LocalDate

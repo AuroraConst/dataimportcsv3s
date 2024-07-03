@@ -1,11 +1,10 @@
 package org.aurora.dataimport
+import utils.{_,given}
 
-// import scala.compiletime.ops.boolean
 
-package object admcodec:
+object admcodec:
   import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
   import java.time.LocalDate
-  import utils.{_,given}
 
 
   case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,

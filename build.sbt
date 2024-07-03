@@ -48,6 +48,8 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
 
   ).
   jsSettings(
+    
+
     /* Configure Scala.js to emit modules in the optimal way to
      * connect to Vite's incremental reload.
      * - emit ECMAScript modules
@@ -55,6 +57,8 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
      * - emit as few (large) modules as possible for all other classes
      *   (in particular, for the standard library)
      */
+
+
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
         .withModuleSplitStyle(
@@ -69,5 +73,6 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
 
     // Add JS-specific settings here
     libraryDependencies ++= Dependencies.laminar.value,
+    libraryDependencies ++= Dependencies.parserjs.value,
     scalaJSUseMainModuleInitializer := true,
   )

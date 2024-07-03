@@ -2,7 +2,7 @@ package org.aurora.js.model
 
 import com.raquo.airstream.ownership.OneTimeOwner
 import com.raquo.laminar.api.L.{*, given}
-import org.aurora.shared._, dto._
+import org.aurora.model.shared.dto._
 
 object DataModel :
 

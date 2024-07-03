@@ -12,7 +12,7 @@ import scala.scalajs.concurrent.JSExecutionContext
 import scala.concurrent.{Future,Promise}
 
 import zio.json._
-import org.aurora.shared._, dto._
+import org.aurora.model.shared.dto.Patient
 import org.aurora.js.model.Fetch
 
 

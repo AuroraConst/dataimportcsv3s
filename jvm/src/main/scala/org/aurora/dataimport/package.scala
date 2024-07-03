@@ -1,5 +1,5 @@
 package org.aurora
-import org.aurora.shared.dto.Patient
+import org.aurora.model.shared.dto.Patient
 import org.aurora.dataimport.hospadmcodec.HospADM
 
 package object dataimport:

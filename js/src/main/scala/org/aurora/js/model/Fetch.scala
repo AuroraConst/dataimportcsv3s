@@ -1,7 +1,7 @@
 package org.aurora.js.model
 
 import zio.json._
-import org.aurora.shared._, dto._
+import org.aurora.model.shared._, dto._
 import com.raquo.laminar.api.L.{*, given}
 
 object Fetch :

@@ -74,5 +74,6 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
     // Add JS-specific settings here
     libraryDependencies ++= Dependencies.laminar.value,
     libraryDependencies ++= Dependencies.parserjs.value,
+    // libraryDependencies += "com.lihaoyi" %%% "fastparse" % "3.1.0",
     scalaJSUseMainModuleInitializer := true,
   )

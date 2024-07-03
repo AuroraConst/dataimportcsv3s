@@ -23,7 +23,6 @@ import org.aurora.js.model.Fetch
  */
 class FetchTest extends AsyncFlatSpec {
 
-  info("this is my FetchTest")
   implicit override def executionContext = JSExecutionContext.queue   
   
   given Owner = new OneTimeOwner(()=>())
@@ -49,7 +48,7 @@ class FetchTest extends AsyncFlatSpec {
     override def onError(err: Throwable): Unit = info(fail(err.getMessage()))
     override def onTry(nextValue: Try[Option[List[Patient]]]): Unit = ()
     override def onNext(nextValue: Option[List[Patient]]):Unit =
-      import org.aurora.shared._, dto._
+      import org.aurora.model.shared.*, dto.*
       import zio.json._
       nextValue.foreach( p => info(s"Observer reporting: List[Patient].size = ${p.size}") )
     }
@@ -65,7 +64,6 @@ class FetchTest extends AsyncFlatSpec {
       Fetch.patients.addObserver(patientsVar.writer)
       patientsVar.signal.foreach( p => info(s"patientVar size ${p.get.size}") )
       
-
       // composes the delay with then reviewing desired results afterwards
       for {    _ <- delay(1500) } yield {      
         if (patientsVar.now().get.size >0) 

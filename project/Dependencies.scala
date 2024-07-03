@@ -16,7 +16,7 @@ object Dependencies {
   val zioTestSBT = "dev.zio" %% "zio-test-sbt" % zioVersion % Test
   val zioTestMagnolia = "dev.zio" %% "zio-test-magnolia" % zioVersion % Test  
 
-
+  
   val scalajsdom  = Def.setting {
     Seq("org.scala-js" %%% "scalajs-dom" % "2.4.0")
   }
@@ -39,7 +39,13 @@ object Dependencies {
   }
 
   val betterfiles = "com.github.pathikrit" %% "better-files" % betterfilesVersion
-  
+
+  val parserjs: Def.Initialize[Seq[ModuleID]] = Def.setting{
+    Seq(
+      "org.aurora" %%% "parserjs" % "0.0.1-SNAPSHOT"
+    )
+  }
+
   val laminar : Def.Initialize[Seq[ModuleID]] = Def.setting {
     Seq(
       "com.raquo" %%% "laminar" % DependencyVersions.laminar

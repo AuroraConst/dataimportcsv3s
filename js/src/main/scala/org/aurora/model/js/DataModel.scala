@@ -1,8 +1,9 @@
-package org.aurora.js.model
+package org.aurora.model.js
 
 import com.raquo.airstream.ownership.OneTimeOwner
 import com.raquo.laminar.api.L.{*, given}
 import org.aurora.model.shared.dto._
+import org.aurora.model.shared.dto.Patient
 
 object DataModel :
 

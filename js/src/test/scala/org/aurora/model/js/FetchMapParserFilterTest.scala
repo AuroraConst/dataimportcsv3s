@@ -1,4 +1,4 @@
-package org.aurora.js.model
+package org.aurora.model.js
 
 import org.scalatest._, Assertions._, funspec.AsyncFunSpec 
 import org.scalatest.flatspec._, Assertions.*
@@ -13,7 +13,7 @@ import scala.concurrent.{Future,Promise}
 
 import zio.json._
 import org.aurora.model.shared.dto.Patient
-import org.aurora.js.model.Fetch
+import org.aurora.model.js.Fetch
 
 
 
@@ -39,7 +39,24 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
     p.future
 
   
-  behavior of "fetch"
+  behavior of "fetchx"
+    it should ("fetchx") in {
+
+      val patientsVar = Var[List[Patient]](List[Patient]())
+      Fetch.patients.map{ 
+        case Some(l) => l
+        case None => List[Patient]()
+      }.addObserver(patientsVar.writer)
+
+
+      for {    _ <- delay(1500) } yield {      
+        if (patientsVar.now().size >0) 
+          assert(true)
+        else  
+          fail("no patients fetched from server")
+      }
+    }
+
     it should ("work with var observer") in {
       import org.aurora.model.patientfilter
       import filter.{*,given}

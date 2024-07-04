@@ -62,7 +62,7 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.ESModule)
         .withModuleSplitStyle(
-          ModuleSplitStyle.SmallModulesFor(List("livechart")))
+          ModuleSplitStyle.SmallModulesFor(List("dataimportcvs3s")))
     },
 
     /*
@@ -74,6 +74,5 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
     // Add JS-specific settings here
     libraryDependencies ++= Dependencies.laminar.value,
     libraryDependencies ++= Dependencies.parserjs.value,
-    // libraryDependencies += "com.lihaoyi" %%% "fastparse" % "3.1.0",
     scalaJSUseMainModuleInitializer := true,
   )

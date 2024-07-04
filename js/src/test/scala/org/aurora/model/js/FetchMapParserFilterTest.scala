@@ -39,43 +39,17 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
     p.future
 
   
-  behavior of "fetchx"
-    it should ("fetchx") in {
-
-      val patientsVar = Var[List[Patient]](List[Patient]())
-      Fetch.patients.map{ 
-        case Some(l) => l
-        case None => List[Patient]()
-      }.addObserver(patientsVar.writer)
-
-
-      for {    _ <- delay(1500) } yield {      
-        if (patientsVar.now().size >0) 
-          assert(true)
-        else  
-          fail("no patients fetched from server")
-      }
-    }
-
+  behavior of "filtering fetch result"
     it should ("work with var observer") in {
       import org.aurora.model.patientfilter
       import filter.{*,given}
-      val searchterms = patientfilter.parseSearchTerms("smith")
+      val searchterms = patientfilter.parseSearchTerms("300  ")
+      info(s"#################$searchterms ##############")
      
       val filterF = pfilter[Patient](searchterms)
 
       val patientsVar = Var[List[Patient]](List[Patient]())
       val filteredPatients = Var[List[Patient]](List[Patient]())
-
-      patientsVar.signal.foreach{ l => 
-        info(s"patient list size = ${l.size}")
-        val uniqueFloors = l.map(_.floor).distinct
-        info(s"unique floors $uniqueFloors"  )
-      }
-      filteredPatients.signal.foreach{l => 
-        info(s"filtered patient list size = ${l.size}")
-        l.foreach(i => info(i.floor.getOrElse("")))
-      }
       
       patientsVar.signal.map{ l => l.filter(filterF)}
         .addObserver(filteredPatients.writer)
@@ -86,11 +60,12 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
       }.addObserver(patientsVar.writer)
 
 
-      for {    _ <- delay(1500) } yield {      
-        if (patientsVar.now().size >0) 
-          assert(true)
-        else
-        if(patientsVar.now().size > filteredPatients.now().size)  
+      for {    _ <- delay(1500) } yield {
+        info(s"${patientsVar.now().size} vs ${filteredPatients.now().size}")  
+        if(patientsVar.now().size > filteredPatients.now().size) 
+          filteredPatients.now().foreach{ p => 
+            info(s"${p.mrp} ${p.floor} ${p.firstName} ${p.lastName}")
+          }
           assert(true)
         else  
           fail("no patients fetched from server")

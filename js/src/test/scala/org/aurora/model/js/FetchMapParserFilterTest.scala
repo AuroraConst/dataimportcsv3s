@@ -46,7 +46,7 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
       val searchterms = patientfilter.parseSearchTerms("300  ")
       info(s"#################$searchterms ##############")
      
-      val filterF = pfilter[Patient](searchterms)
+      val filterF = filterPredicate[Patient](searchterms)
 
       val patientsVar = Var[List[Patient]](List[Patient]())
       val filteredPatients = Var[List[Patient]](List[Patient]())

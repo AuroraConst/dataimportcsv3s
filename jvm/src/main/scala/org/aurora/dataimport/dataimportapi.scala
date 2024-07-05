@@ -59,7 +59,7 @@ object dataimportapi:
       UnitNumber(patient.unitNumber),
       Name(patient.lastName + "," + patient.firstName),
       patient.sex,
-      BirthDate(javatime.formattedString(patient.dob.get)),
+      BirthDate(formattedString(patient.dob.get)),
       HealthCard(patient.OHIP.getOrElse("")),
       patient.admitDate.get.toLocalDate(),
       Floor(patient.floor.getOrElse("")),

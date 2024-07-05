@@ -1,28 +1,17 @@
 package org.aurora.dataimport
 import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
 import scala.util.Try
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter  
+import org.aurora.dataimport.javatime.JavaTimeUtils
 
 
-object utils :
+object utils extends JavaTimeUtils:
   trait PadSize:
     val s:String  
     val padSize:Int
     def padded = s.padTo(padSize,' ')
     lazy val trimmed = s.trim()
 
-  trait JavaTimeLocalDate:
-    def localdate:LocalDate
 
-  import java.time._
-  val dateFormat = format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
-  object javatime:
-    def localDate(s:String):LocalDate = LocalDate.parse(s,dateFormat )
-    def formattedString(d:LocalDate):String =  dateFormat.format(d)
-    
-  
 
   case class AccountNumber(s:String) extends PadSize:
     override val padSize = 11 
@@ -166,12 +155,11 @@ object utils :
   
 
 
+
   import java.time.LocalDate
 
-  val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-
-  given StringEncoder[LocalDate] = d => dateFormatter.format(d)
-  given StringDecoder[LocalDate] =  s => Try(LocalDate.parse(s,dateFormatter))
+  given StringEncoder[LocalDate] = d => formattedString(d)
+  given StringDecoder[LocalDate] =  s => Try(localDate(s))
       .toEither
       .left
       .map(e => DecodeError.TypeError(e.getMessage))    

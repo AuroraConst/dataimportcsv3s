@@ -12,7 +12,7 @@ class GivenFilterTest extends AnyWordSpec with should.Matchers{
       import org.aurora.model.patientfilter
       val searchterms = patientfilter.parseSearchTerms("")  
 
-      val filterF = filter.pfilter[Patient](searchterms)
+      val filterF = filter.filterPredicate[Patient](searchterms)
 
       List[Patient]().filter(filterF) should be(List[Patient]())
     }

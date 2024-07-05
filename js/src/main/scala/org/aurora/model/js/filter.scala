@@ -1,12 +1,11 @@
 package org.aurora.model.js
 
 import org.aurora.model.shared.dto.Patient
-import org.aurora.model.patientfilter.*
 import org.aurora.model.js.DataModel.patientTableData
 import org.aurora.model.shared.dto.Patient
-import org.aurora.model.patientfilter.SearchField.FLOORWING
+import org.aurora.model.queryparser.*, FilterTerm.FLOORWING
 object filter :
-  def floorWing(p:Patient):FLOORWING = 
+  protected def floorWing(p:Patient):FLOORWING = 
     p.floor match {
       case Some(f) => 
         f match {
@@ -23,7 +22,7 @@ object filter :
 
 
   given IncludeMethods[Patient](st=null) with
-    import SearchField._
+    import FilterTerm._
     def includeFullName(patientdata:Patient):Boolean = st.fn match {
       case None => true
       case Some(FULLNAME(last,first)) =>  
@@ -63,9 +62,15 @@ object filter :
       
   
   
-  //TODO WORKING HERE, testing in FetchMapParserFilterTest
   
-  def pfilter[T](st:Searchterms)(using im: IncludeMethods[T]):(T)=>Boolean = 
+  /**
+    * higher order function that returns a filter predicate appropriate to T
+    *
+    * @param st
+    * @param im
+    * @return
+    */
+  def filterPredicate[T](st:FilterTerms)(using im: IncludeMethods[T]):(T)=>Boolean = 
     im.st = st
     (p:T) => im.include(p)
 

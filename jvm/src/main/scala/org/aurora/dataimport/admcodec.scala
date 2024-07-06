@@ -5,6 +5,7 @@ import utils.{_,given}
 object admcodec:
   import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
   import java.time.LocalDate
+  import dataimportcodec.{*,given}
 
 
   case class ADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,

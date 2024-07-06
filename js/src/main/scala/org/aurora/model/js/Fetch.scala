@@ -9,7 +9,7 @@ object Fetch :
   def patients = 
     FetchStream.get("http://localhost:8080/patientsjson")
     .map(s => s.fromJson[List[Patient]])
-    .map(p => p.toOption)
+    .map(r => r.toOption)
 
 end Fetch
 

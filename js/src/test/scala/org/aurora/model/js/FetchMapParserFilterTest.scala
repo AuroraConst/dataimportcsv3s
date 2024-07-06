@@ -41,12 +41,12 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
   
   behavior of "filtering fetch result"
     it should ("work with var observer") in {
-      import org.aurora.model.patientfilter
+      import org.aurora.model.queryparser.*
       import filter.{*,given}
-      val searchterms = patientfilter.parseSearchTerms("300  ")
-      info(s"#################$searchterms ##############")
+      val filterTerms = parseFilterTerms("100  ")
+      info(s"#################$filterTerms ##############")
      
-      val filterF = filterPredicate[Patient](searchterms)
+      val filterF = filterPredicate[Patient](filterTerms)
 
       val patientsVar = Var[List[Patient]](List[Patient]())
       val filteredPatients = Var[List[Patient]](List[Patient]())

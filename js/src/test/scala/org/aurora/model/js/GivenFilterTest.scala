@@ -9,8 +9,8 @@ class GivenFilterTest extends AnyWordSpec with should.Matchers{
     "work" in {
 
       import org.aurora.model.js.filter.{*,given}
-      import org.aurora.model.patientfilter
-      val searchterms = patientfilter.parseSearchTerms("")  
+      import org.aurora.model.queryparser.*
+      val searchterms =   parseFilterTerms("")  
 
       val filterF = filter.filterPredicate[Patient](searchterms)
 

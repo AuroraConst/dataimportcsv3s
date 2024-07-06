@@ -11,6 +11,8 @@ object hospadmcodec:
   import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
   import java.time.LocalDate
   import utils.{_,given}
+  import dataimportcodec.{*,given}
+  
 
   case class HospADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,
     birthDate:BirthDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,

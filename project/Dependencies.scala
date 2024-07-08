@@ -40,9 +40,9 @@ object Dependencies {
 
   val betterfiles = "com.github.pathikrit" %% "better-files" % betterfilesVersion
 
-  val parserjs: Def.Initialize[Seq[ModuleID]] = Def.setting{
+  val patientfilterparserjs: Def.Initialize[Seq[ModuleID]] = Def.setting{
     Seq(
-      "org.aurora" %%% "parserjs" % "0.0.1-SNAPSHOT"
+      "com.axiom" %%% "patientfilterparserjs" % "0.0.1-SNAPSHOT"
     )
   }
 

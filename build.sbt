@@ -2,7 +2,7 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 // give the user a nice default project!
 val sharedSettings = Seq(
   scalaVersion := DependencyVersions.scalaVersion,
-  organization := "org.aurora",
+  organization := "com.axiom",
   scalacOptions ++=  Seq("-Yretain-trees",//necessary in zio-json if any case classes have default parameters
   "-Xmax-inlines","50") //setting max inlines to accomodate > 32 fields in case classes
 )
@@ -73,6 +73,6 @@ lazy val dataimportcsv3s = crossProject(JSPlatform, JVMPlatform).crossType(Cross
 
     // Add JS-specific settings here
     libraryDependencies ++= Dependencies.laminar.value,
-    libraryDependencies ++= Dependencies.parserjs.value,
+    libraryDependencies ++= Dependencies.patientfilterparserjs.value,
     scalaJSUseMainModuleInitializer := true,
   )

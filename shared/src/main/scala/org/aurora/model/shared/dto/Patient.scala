@@ -1,4 +1,4 @@
-package org.aurora.model.shared.dto
+package com.axiom.model.shared.dto
 
 import zio.json._
 import java.time._ //cross scalajs and jvm compatible

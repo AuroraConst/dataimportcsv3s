@@ -1,7 +1,7 @@
-package org.aurora.model.js
-import org.aurora.model.js.filter.{*,given}
-import org.aurora.model.shared.dto.*
-import org.aurora.model.queryparser.*
+package com.axiom.model.js
+import com.axiom.model.js.filter.{*,given}
+import com.axiom.model.shared.dto.*
+import com.axiom.model.queryparser.*
 
 
 import com.raquo.airstream.ownership.OneTimeOwner

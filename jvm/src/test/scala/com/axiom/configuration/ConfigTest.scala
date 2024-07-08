@@ -1,9 +1,9 @@
-package org.aurora.configuration
+package com.axiom.configuration
 
 import org.scalatest._,  wordspec._, matchers._
 import better.files._, Dsl._
 
-import org.aurora.dataimport.dataimportapi.*
+import com.axiom.dataimport.dataimportapi.*
 
 class ConfigTest extends AnyWordSpec with should.Matchers{
   import com.typesafe.config._
@@ -22,14 +22,14 @@ class ConfigTest extends AnyWordSpec with should.Matchers{
 
   "admfile" should {
     "exist" in {
-      import org.aurora._, dataimport._
+      import com.axiom._, dataimport._
       admFile.exists should be(true)
     }
   }
 
   "hospadmFile" should {
     "exist" in {
-      import org.aurora._, dataimport._
+      import com.axiom._, dataimport._
       hospadmFile.exists should be(true)
     }
   }

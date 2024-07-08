@@ -1,4 +1,4 @@
-package org.aurora.dataimport
+package com.axiom.dataimport
 
 import ru.johnspade.csv3s._, codecs._, parser._ , instances.given
 import utils.*

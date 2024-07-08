@@ -1,4 +1,4 @@
-package org.aurora.model.js
+package com.axiom.model.js
 
 import org.scalatest._, Assertions._, funspec.AsyncFunSpec 
 import org.scalatest.flatspec._, Assertions.*
@@ -12,8 +12,8 @@ import scala.scalajs.concurrent.JSExecutionContext
 import scala.concurrent.{Future,Promise}
 
 import zio.json._
-import org.aurora.model.shared.dto.Patient
-import org.aurora.model.js.Fetch
+import com.axiom.model.shared.dto.Patient
+import com.axiom.model.js.Fetch
 
 
 
@@ -41,7 +41,7 @@ class FetchMapParserFilterTest extends AsyncFlatSpec {
   
   behavior of "filtering fetch result"
     it should ("work with var observer") in {
-      import org.aurora.model.queryparser.*
+      import com.axiom.model.queryparser.*
       import filter.{*,given}
       val filterTerms = parseFilterTerms("100  ")
       info(s"#################$filterTerms ##############")

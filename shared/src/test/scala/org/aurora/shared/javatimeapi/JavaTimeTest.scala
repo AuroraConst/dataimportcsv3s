@@ -1,4 +1,4 @@
-package org.aurora.shared.javatimeapi
+package com.axiom.shared.javatimeapi
 
 import org.scalatest._,  wordspec._, matchers._
 /**

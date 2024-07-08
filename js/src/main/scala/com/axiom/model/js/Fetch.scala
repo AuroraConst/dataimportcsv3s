@@ -1,9 +1,9 @@
-package org.aurora.model.js
+package com.axiom.model.js
 
 import zio.json._
-import org.aurora.model.shared._, dto._
+import com.axiom.model.shared._, dto._
 import com.raquo.laminar.api.L.{*, given}
-import org.aurora.model.shared.dto.Patient
+import com.axiom.model.shared.dto.Patient
 
 object Fetch :
   def patients = 

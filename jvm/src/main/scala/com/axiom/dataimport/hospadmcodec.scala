@@ -1,9 +1,9 @@
-package org.aurora.dataimport
+package com.axiom.dataimport
 
 import scala.compiletime.ops.boolean
 
 
-import org.aurora.dataimport.utils._
+import com.axiom.dataimport.utils._
 
 object hospadmcodec:
 

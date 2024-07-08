@@ -1,9 +1,9 @@
-package org.aurora.dataimport
-import org.aurora.model.shared.dto.Patient
+package com.axiom.dataimport
+import com.axiom.model.shared.dto.Patient
 import hospadmcodec.HospADM
 import hospadmcodec.given
 import admcodec._
-import org.aurora.model.shared.dto.Patient
+import com.axiom.model.shared.dto.Patient
 
 object dataimportapi:
   import com.typesafe.config._

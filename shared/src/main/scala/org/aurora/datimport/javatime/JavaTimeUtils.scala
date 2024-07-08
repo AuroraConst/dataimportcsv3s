@@ -1,4 +1,4 @@
-package org.aurora.dataimport.javatime
+package com.axiom.dataimport.javatime
 
 trait JavaTimeUtils {
   import java.time._

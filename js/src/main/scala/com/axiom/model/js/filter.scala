@@ -1,9 +1,9 @@
-package org.aurora.model.js
+package com.axiom.model.js
 
-import org.aurora.model.shared.dto.Patient
-import org.aurora.model.js.DataModel.patientTableData
-import org.aurora.model.shared.dto.Patient
-import org.aurora.model.queryparser.*, FilterTerm.FLOORWING
+import com.axiom.model.shared.dto.Patient
+import com.axiom.model.js.DataModel.patientTableData
+import com.axiom.model.shared.dto.Patient
+import com.axiom.model.queryparser.*, FilterTerm.FLOORWING
 object filter :
   protected def floorWing(p:Patient):FLOORWING = 
     p.floor match {

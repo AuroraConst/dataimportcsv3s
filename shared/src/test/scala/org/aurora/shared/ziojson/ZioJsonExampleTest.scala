@@ -1,4 +1,4 @@
-package org.aurora.shared.ziojson
+package com.axiom.shared.ziojson
 
 import org.scalatest._,  wordspec._, matchers._
 /**

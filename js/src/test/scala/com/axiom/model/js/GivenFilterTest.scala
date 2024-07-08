@@ -1,15 +1,15 @@
-package org.aurora.model.js
+package com.axiom.model.js
 
 import org.scalatest._, wordspec._, matchers._
-import org.aurora.model.shared.dto.Patient
+import com.axiom.model.shared.dto.Patient
 
 
 class GivenFilterTest extends AnyWordSpec with should.Matchers{
   "this" should {
     "work" in {
 
-      import org.aurora.model.js.filter.{*,given}
-      import org.aurora.model.queryparser.*
+      import com.axiom.model.js.filter.{*,given}
+      import com.axiom.model.queryparser.*
       val searchterms =   parseFilterTerms("")  
 
       val filterF = filter.filterPredicate[Patient](searchterms)

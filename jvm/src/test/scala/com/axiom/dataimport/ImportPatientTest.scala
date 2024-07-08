@@ -1,4 +1,4 @@
-package org.aurora.dataimport
+package com.axiom.dataimport
 
 import org.scalatest._, wordspec._, matchers._
 import dataimportapi._

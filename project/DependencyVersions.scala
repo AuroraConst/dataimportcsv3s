@@ -1,6 +1,6 @@
 object DependencyVersions {
 
-  val scalaVersion       = "3.5.1"
+  val scalaVersion       = "3.5.2"
   val scalajsdom         = "2.4.0"
   val laminar            = "17.0.0"
   val `upickle`          = "3.1.0"

@@ -15,7 +15,7 @@ object hospadmcodec:
 
   case class HospADM(accountNumber:AccountNumber,unitNumber:UnitNumber,name:Name,sex:String,
     birthDate:BirthDate,healthCard:HealthCard,admitDate:LocalDate,floor:Floor,room:Room,bed:Bed,
-    mrp:MRP, admittingPhysician:AdmittingPhysician,primaryCare:PrimaryCare ,familyPrivileges:FamilyPrivileges,
+    admittingPhysician:AdmittingPhysician,mrp:Mrp, primaryCare:PrimaryCare ,familyPrivileges:FamilyPrivileges,
     hospitalistFlag:HospitalistFlag,flag:Flag ,service:Service
     )
 

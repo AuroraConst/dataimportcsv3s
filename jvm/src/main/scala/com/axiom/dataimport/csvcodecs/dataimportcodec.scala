@@ -62,8 +62,8 @@ object dataimportcodec :
   given StringEncoder[Bed] = _.padded
   given StringDecoder[Bed] =  s => Try(Bed(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
 
-  given StringEncoder[MRP] = _.padded
-  given StringDecoder[MRP] =  s => Try(MRP(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
+  given StringEncoder[Mrp] = _.padded
+  given StringDecoder[Mrp] =  s => Try(Mrp(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))
 
   given StringEncoder[AdmittingPhysician] = _.padded
   given StringDecoder[AdmittingPhysician] =  s => Try(AdmittingPhysician(s)).toEither.left.map(e => DecodeError.TypeError(e.getMessage))

@@ -15,7 +15,7 @@ object api:
     ADM(
     hospadm.accountNumber,hospadm.unitNumber,hospadm.name,hospadm.sex,
     hospadm.birthDate,hospadm.healthCard,hospadm.admitDate,hospadm.floor,hospadm.room,hospadm.bed,
-    hospadm.mrp,hospadm.admittingPhysician,hospadm.primaryCare,hospadm.familyPrivileges,
+    hospadm.admittingPhysician,hospadm.mrp,hospadm.primaryCare,hospadm.familyPrivileges,
     hospadm.hospitalistFlag,hospadm.flag,hospadm.service,
     Field40(""),Field30(""),Field30(""),Field20(""),Field1(""),Field10(""),Field18(""),Field18(""),Field10(""),Field8("")
     )
@@ -34,8 +34,8 @@ object api:
       Floor(patient.floor.getOrElse("")),
       Room(patient.room.getOrElse("")),
       Bed(patient.bed.getOrElse("")),
-      MRP(patient.mrp.getOrElse("")),
       AdmittingPhysician(patient.admittingPhys.getOrElse("")),
+      Mrp(patient.mrp.getOrElse("")),
       PrimaryCare(patient.family.getOrElse("")),
       FamilyPrivileges(patient.famPriv.getOrElse("")),
       HospitalistFlag(patient.hosp.getOrElse("")),

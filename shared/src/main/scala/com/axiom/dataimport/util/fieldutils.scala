@@ -42,9 +42,9 @@ object fieldutils extends JavaTimeUtils:
 
   case class Bed(s:String) extends PadSize:
     override val padSize = 3  
-  case class MRP(s:String) extends PadSize:
+  case class AdmittingPhysician(s:String) extends PadSize:
     override val padSize = 10
-  case class AdmittingPhysician(s:String)  extends PadSize:
+  case class Mrp(s:String)  extends PadSize:
     override val padSize = 10
   case class PrimaryCare(s:String)  extends PadSize:
     override val padSize = 10

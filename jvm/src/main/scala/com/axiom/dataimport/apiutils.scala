@@ -31,7 +31,7 @@ object apiutils :
     lineIterator.map( parseLine[ADM](_)).collect{ case Right(adm) => adm}.toList
   end importAdm
 
-  private def importHospAdm():List[HospADM] = 
+  def importHospAdm():List[HospADM] = 
     import csvcodecs.hospadmcodec.{*,given}
     val lineIterator = hospadmFile.lineIterator
     lineIterator.next() //skip header
